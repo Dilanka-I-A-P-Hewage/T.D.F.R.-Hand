@@ -1,4 +1,4 @@
-//Index and Middle Fingers with force calibrations.
+//Copyrights Reserved Dilanka I.A.P. Hewage - ST20000431.
 
 #include <PID_v1.h>
 #include <Servo.h>
@@ -89,48 +89,6 @@ const int stressSenseL4 = Ai32;
 const int stressSenseL5 = Ai33;
 const int stressSenseL6 = Ai34;
 
-void setup()
-{
-  Serial.begin(9600);
-
-  m1.attach(2);
-  m2.attach(3);
-  m3.attach(4);
-  m3.attach(5);
-  m4.attach(6);
-  m5.attach(7);
-
-  i1.attach(8);
-  i2.attach(9);
-  i3.attach(10);
-  i3.attach(11);
-  i4.attach(12);
-  i5.attach(13);
-  
-  r1.attach(44);
-  r2.attach(45);
-  r3.attach(46);
-  
-  //I2C begins
-  r4.attach(i2);
-  r5.attach(i3);
-  r6.attach(i4);
-
-  t1.attach(i5);
-  t2.attach(i6);
-  t3.attach(i7);
-  t3.attach(i8);
-  t4.attach(i9);
-  t5.attach(i10);
-  
-  l1.attach(i11);
-  l2.attach(i12);
-  l3.attach(i13);
-  l3.attach(i14);
-  l4.attach(i15);
-  l5.attach(i16);
-}
-
 //PD Controller input variables 
 //Flex Sensors
 double SetpointT, InputT, OutputT, SetpointTO, OutputTO;
@@ -177,6 +135,107 @@ double Setpointl6, Inputl6, Outputl6, SetpointL6, OutputL6;
 
 //Pre-calculated Kp, Ki, Kd values
 double calcKp = 0.5, calcKi = 0.0, calcKd = 3.0;
+
+void setup()
+{
+  Serial.begin(9600);
+
+  m1.attach(2);
+  m2.attach(3);
+  m3.attach(4);
+  m3.attach(5);
+  m4.attach(6);
+  m5.attach(7);
+
+  i1.attach(8);
+  i2.attach(9);
+  i3.attach(10);
+  i3.attach(11);
+  i4.attach(12);
+  i5.attach(13);
+  
+  r1.attach(44);
+  r2.attach(45);
+  r3.attach(46);
+  
+  //I2C begins
+  r4.attach(i2);
+  r5.attach(i3);
+  r6.attach(i4);
+
+  t1.attach(i5);
+  t2.attach(i6);
+  t3.attach(i7);
+  t3.attach(i8);
+  t4.attach(i9);
+  t5.attach(i10);
+  
+  l1.attach(i11);
+  l2.attach(i12);
+  l3.attach(i13);
+  l3.attach(i14);
+  l4.attach(i15);
+  l5.attach(i16);
+  
+  //PD Tuning for Flex Sensors
+  SetpointT = 0;
+  SetpointTO = -SetpointT;
+
+  SetpointI = 0;
+  SetpointIO = -SetpointI;
+
+  SetpointM = 0;
+  SetpointMO = -SetpointM;
+  
+  SetpointR = 0;
+  SetpointRO = -SetpointR;
+  
+  SetpointL = 0;
+  SetpointLO = -SetpointL;
+
+  InputT = currentPosition1;
+  myPID1.SetMode(AUTOMATIC);
+  myPID1.SetOutputLimits(-100, 100);
+  myPID1.SetSampleTime(100);
+  myPID11.SetMode(AUTOMATIC);
+  myPID11.SetOutputLimits(-100, 100);
+  myPID11.SetSampleTime(100);
+
+  InputI = currentPosition2;
+  myPID2.SetMode(AUTOMATIC);
+  myPID2.SetOutputLimits(-220, 220);
+  myPID2.SetSampleTime(100);
+  myPID22.SetMode(AUTOMATIC);
+  myPID22.SetOutputLimits(-220, 220);
+  myPID22.SetSampleTime(100);
+
+  InputM = currentPosition3;
+  myPID3.SetMode(AUTOMATIC);
+  myPID3.SetOutputLimits(-250, 250);
+  myPID3.SetSampleTime(100);
+  myPID33.SetMode(AUTOMATIC);
+  myPID33.SetOutputLimits(-250, 250);
+  myPID33.SetSampleTime(100);
+  
+  InputR = currentPosition3;
+  myPID3.SetMode(AUTOMATIC);
+  myPID3.SetOutputLimits(-250, 250);
+  myPID3.SetSampleTime(100);
+  myPID33.SetMode(AUTOMATIC);
+  myPID33.SetOutputLimits(-250, 250);
+  myPID33.SetSampleTime(100);
+  
+  InputL = currentPosition3;
+  myPID3.SetMode(AUTOMATIC);
+  myPID3.SetOutputLimits(-250, 250);
+  myPID3.SetSampleTime(100);
+  myPID33.SetMode(AUTOMATIC);
+  myPID33.SetOutputLimits(-250, 250);
+  myPID33.SetSampleTime(100);
+  
+  //PD Tuning for Stress Sensor
+  
+}
 
 void loop()
 {
